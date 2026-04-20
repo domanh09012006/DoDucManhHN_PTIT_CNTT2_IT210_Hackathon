@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Danh sách nhân viên</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    </head>
+    <body class="container mt-4">
+        <h3 class="text-center">HỆ THỐNG QUẢN LÝ NHÂN VIÊN</h3>
+        <hr>
+        <div class="mb-3 text-right">
+            <a th:href="@{/employees/add}" class="btn btn-primary px-4">Thêm mới</a>
+        </div>
+        <table class="table table-bordered text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th>STT</th>
+                    <th>FullName</th>
+                    <th>Position</th>
+                    <th>Salary</th>
+                    <th>Avatar</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="emp, state : ${list}">
+                    <td th:text="${state.count}"></td>
+                    <td th:text="${emp.fullName}"></td>
+                    <td th:text="${emp.position}"></td>
+                    <td th:text="${#numbers.formatDecimal(emp.salary, 0, 'COMMA', 0, 'POINT')}"></td>
+                    <td><img th:src="${emp.avatar}" width="40" height="40" class="rounded-circle" alt="Avatar"></td>
+                    <td>
+                        <a th:href="@{/employees/edit/{id}(id=${emp.id})}" class="btn btn-warning btn-sm">Sửa</a>
+                        <a th:href="@{/employees/delete/{id}(id=${emp.id})}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Xác nhận xóa nhân viên này?')">Xóa</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(list)}">
+                    <td colspan="7" >Không có nhân viên nào trong danh sách</td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
